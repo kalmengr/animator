@@ -1,0 +1,14 @@
+image: Visual Studio 2019
+platform: x64
+environment:
+  nodejs_version: "16" # Use the Node.js version compatible with Haiku Animator
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - choco install yarn # Install Yarn using Chocolatey package manager
+  - yarn install # Install project dependencies
+build_script:
+  - yarn build # Build the app (adjust command based on the repository’s scripts)
+  - yarn dist:win # Create the Windows distribution (adjust as per README)
+artifacts:
+  - path: dist\*.exe # Save the Windows executable as a downloadable artifact
+    name: HaikuAnimatorWindows
