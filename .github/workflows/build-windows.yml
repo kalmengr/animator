@@ -1,0 +1,28 @@
+name: Build for Windows
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - name: Install dependencies
+      run: npm install
+    - name: Build the project
+      run: npm run build
+    - name: Package with electron-builder
+      run: npx electron-builder --win
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: windows-executable
+        path: dist/*.exe
